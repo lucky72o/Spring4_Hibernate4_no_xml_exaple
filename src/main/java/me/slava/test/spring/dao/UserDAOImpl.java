@@ -11,21 +11,13 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Repository
+@Transactional
 public class UserDAOImpl implements UserDAO {
 
     @Autowired
     private SessionFactory sessionFactory;
 
-    public UserDAOImpl() {
-
-    }
-
-    public UserDAOImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
     @Override
-    @Transactional
     public List<User> list() {
         @SuppressWarnings("unchecked")
         List<User> listUser = (List<User>) sessionFactory.getCurrentSession()
@@ -36,13 +28,11 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    @Transactional
     public void saveOrUpdate(User user) {
         sessionFactory.getCurrentSession().saveOrUpdate(user);
     }
 
     @Override
-    @Transactional
     public void delete(int id) {
         User userToDelete = new User();
         userToDelete.setId(id);
@@ -50,7 +40,6 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    @Transactional
     public User get(int id) {
         String hql = "from User where id=" + id;
         Query query = sessionFactory.getCurrentSession().createQuery(hql);
